@@ -65,37 +65,6 @@ The analysis is conducted in R (v4.4.0) within Visual Studio Code. The required 
 
 ---
 
-## 🔄 Workflow
-
-The data analysis workflow follows these main steps:
-
-1. Exploratory Data Analysis (EDA)
-
-- Detection of missing values and outliers
-
-- Visualization of Total Ion Chromatogram (TIC) profiles based on contamination classes
-
-- Exploratory assessment of the dataset using Hierarchical Clustering Analysis (HCA) and Principal Component Analysis (PCA)
-
-2. Supervised Machine Learning
-
-Random Forest (RF) and Support Vector Machine (SVM) models are developed for classification. Three feature selection strategies are applied:
-
-- Using all predictors
-- Selection via the Boruta algorithm
-- Selection via Genetic Algorithm (GA)
-
-Standard machine learning workflow applied:
-
-- Splitting the dataset into training (70%) and test (30%) sets.
-- Feature extraction is performed exclusively on the training set.
-- Data is scaled and centered after splitting and feature extraction.
-- Class balancing strategies such as undersampling and SMOTE are applied to the training set.
-- Model training includes hyperparameter tuning and cross-validation.
-- Evaluation is conducted on the test set to assess final performance.
-
----
-
 ## 🚀 How to Use the Repository
 
 1. Clone the repository
