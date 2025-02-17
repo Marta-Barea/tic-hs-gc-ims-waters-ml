@@ -11,13 +11,22 @@ This repository contains the code and workflows for the analysis of hydrocarbon 
 The repository is structured as follows:
 
 ```
-├── Figures/               # Generated figures from data analysis
-├── Scripts/               # Contains scripts for data analysis
-│   ├── 1_EDA.R            # Exploratory Data Analysis (EDA)
-│   ├── 2_Unsupervised.R   # Unsupervised Machine Learning (HCA, PCA)
-│   ├── 3_Supervised.R     # Supervised Machine Learning (SVM, RF)
-├── requirements.txt       # Required R packages
-├── README.md              # Project documentation
+├── figures/                             # Generated figures from data analysis
+├── scripts/                             # Contains scripts for data analysis
+│   ├── eda                              # Exploratory Data Analysis (EDA)
+│       ├── missing_values_hsgcims_waters.R
+│       ├── outliers_hsgcims_waters.R
+│   ├── tic                              # Total Ion Chromatogram (TIC) ploting 
+│       ├── tic_hsgcims_waters.R
+│   ├── unsupervised_algorithms          # Unsupervised Machine Learning (HCA, PCA)
+│       ├── hca_hsgcims_waters.R
+│       ├── pca_hsgcims_waters.R
+│   ├── supervised_algorithms            # Supervised Machine Learning (SVM, RF)
+│       ├── svm_hsgcims_waters.R
+│       ├── rf_hsgcims_waters.R
+├── requirements.txt                     # Required R packages
+├── README.md                            # Project documentation
+├── .gitignore                           # Project documentation
 ```
 
 ---
