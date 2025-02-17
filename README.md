@@ -26,7 +26,8 @@ The repository is structured as follows:
 │       ├── rf_hsgcims_waters.R
 ├── requirements.txt                     # Required R packages
 ├── README.md                            # Project documentation
-├── .gitignore                           # Project documentation
+├── .gitignore                           # Ignore file
+├── LICENSE                              # License file
 ```
 
 ---
