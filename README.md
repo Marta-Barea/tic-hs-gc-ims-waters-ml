@@ -11,6 +11,7 @@ This repository contains the code and workflows for the analysis of hydrocarbon 
 The repository is structured as follows:
 
 ```
+├── App/                                 # Shiny Application
 ├── figures/                             # Generated figures from data analysis
 ├── scripts/                             # Contains scripts for data analysis
 │   ├── eda                              # Exploratory Data Analysis (EDA)
