@@ -48,7 +48,7 @@ run_experiment <- function(method, imbal_train, imbal_test, output_prefix) {
         boruta_fixed <- TentativeRoughFix(boruta_out)
         selected_features <- names(boruta_fixed$finalDecision)[
             boruta_fixed$finalDecision == "Confirmed"
-        ] %>% str_remove_all("`")
+        ] %>% str_remove_all("")
         if (length(selected_features) == 0) {
             warning("Boruta did not select any feature. Using all features.")
             selected_features <- setdiff(names(imbal_train), "Group")
@@ -173,21 +173,39 @@ run_experiment <- function(method, imbal_train, imbal_test, output_prefix) {
         plot = confusion_plot, width = 10, height = 6, dpi = 300
     )
 
-    # Return results and plots
-    list(
-        method = method,
-        selected_features = paste(selected_features, collapse = ", "),
-        training_time_sec = training_time,
-        best_C = best_C,
-        best_cv_accuracy = best_cv_accuracy,
-        best_cv_kappa = best_cv_kappa,
-        support_vectors = support_vectors,
-        test_accuracy = cmatrix_test$overall["Accuracy"],
-        test_kappa = cmatrix_test$overall["Kappa"],
-        confusion_matrix = cmatrix_test$table,
-        training_plot = training_plot,
-        confusion_plot = confusion_plot
-    )
+    # Return results and plots (se agrega el modelo final para el método "ga")
+    if (method == "ga") {
+        return(list(
+            method = method,
+            selected_features = paste(selected_features, collapse = ", "),
+            training_time_sec = training_time,
+            best_C = best_C,
+            best_cv_accuracy = best_cv_accuracy,
+            best_cv_kappa = best_cv_kappa,
+            support_vectors = support_vectors,
+            test_accuracy = cmatrix_test$overall["Accuracy"],
+            test_kappa = cmatrix_test$overall["Kappa"],
+            confusion_matrix = cmatrix_test$table,
+            training_plot = training_plot,
+            confusion_plot = confusion_plot,
+            final_model = final_svm
+        ))
+    } else {
+        return(list(
+            method = method,
+            selected_features = paste(selected_features, collapse = ", "),
+            training_time_sec = training_time,
+            best_C = best_C,
+            best_cv_accuracy = best_cv_accuracy,
+            best_cv_kappa = best_cv_kappa,
+            support_vectors = support_vectors,
+            test_accuracy = cmatrix_test$overall["Accuracy"],
+            test_kappa = cmatrix_test$overall["Kappa"],
+            confusion_matrix = cmatrix_test$table,
+            training_plot = training_plot,
+            confusion_plot = confusion_plot
+        ))
+    }
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -244,7 +262,6 @@ registerDoSEQ()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Export package versions to requirements.txt ----
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 if (file.exists("requirements.txt")) {
     existing_lines <- readLines("requirements.txt")
 } else {
@@ -259,3 +276,13 @@ if (length(to_add) > 0) {
     new_lines <- paste0(to_add, "==", sapply(to_add, function(x) as.character(packageVersion(x))))
     write(new_lines, file = "requirements.txt", append = TRUE, sep = "\n")
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Save SVM Model (from GA) in RDS format in the 'App' folder
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if (!dir.exists("App")) {
+    dir.create("App")
+}
+
+ga_model <- results_list[["ga"]][["final_model"]]
+saveRDS(ga_model, file = file.path("App", "svm_model_ga.rds"))
